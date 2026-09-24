@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prayer Time Calculation Methods Explained | SalahTime</title>
+<meta name="description" content="How SalahTime calculates prayer times: the 11 official calculation methods, Fajr and Isha angles, Asr settings, and high-latitude adjustments.">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<header class="site-header"><div class="container"><a class="brand" href="/">SalahTime</a><span class="tagline">Accurate prayer times for the Muslim world</span><nav class="nav"><a href="/">Home</a><a href="/qibla.html">Qibla</a><a href="/hijri.html">Hijri Calendar</a><a href="/methods.html" aria-current="page">Methods</a><a href="/cities/">Cities</a></nav></div></header>
+<main class="container">
+<p class="breadcrumbs"><a href="/">Home</a> → Calculation methods</p>
+
+<!-- ADSENSE: banner-top -->
+<div class="ad-slot" role="complementary" aria-label="Advertisement">Advertisement</div>
+
+<section class="card seo-copy">
+  <h2>How prayer times are calculated</h2>
+  <p>Muslim prayer times are defined by the position of the sun, so they can be computed astronomically for any place and date. SalahTime uses the standard solar-declination and equation-of-time formulation: Fajr and Isha are set when the sun reaches a fixed angle below the horizon (twilight), Sunrise and Sunset at 0.833° below the horizon (accounting for refraction), Dhuhr at solar noon, and Asr when an object's shadow reaches a set multiple of its length. Maghrib is at sunset.</p>
+  <p>Different religious authorities use slightly different twilight angles and precautionary minute offsets — that is why prayer times differ between methods. SalahTime supports the eleven official methods below and automatically selects the right default for each city (for example, the Egyptian General Authority of Survey for Egypt). You can switch methods any time on the <a href="/">home page</a>.</p>
+</section>
+
+<section class="card">
+  <h2>The 11 calculation methods</h2>
+  <div class="wrap-scroll">
+  <table class="data">
+    <thead><tr><th scope="col">Method</th><th scope="col">Fajr</th><th scope="col">Isha</th><th scope="col">Notes</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Egyptian General Authority of Survey</strong></td><td>19.5°</td><td>17.5°</td><td>Default for Egypt and the method used on this site's homepage.</td></tr>
+      <tr><td><strong>Muslim World League (MWL)</strong></td><td>18°</td><td>17°</td><td>Global default used in Europe, the Gulf states and many other countries.</td></tr>
+      <tr><td><strong>Umm al-Qura University, Makkah</strong></td><td>18.5°</td><td>90 min after Maghrib</td><td>Used in Saudi Arabia; Isha is a fixed interval rather than a twilight angle.</td></tr>
+      <tr><td><strong>Islamic Society of North America (ISNA)</strong></td><td>15°</td><td>15°</td><td>Common in the United States and Canada.</td></tr>
+      <tr><td><strong>University of Islamic Sciences, Karachi</strong></td><td>18°</td><td>18°</td><td>Widely used in Pakistan, India, Bangladesh and Afghanistan.</td></tr>
+      <tr><td><strong>Kementerian Agama, Indonesia</strong></td><td>20°</td><td>18°</td><td>Official method of Indonesia's Ministry of Religious Affairs.</td></tr>
+      <tr><td><strong>JAKIM, Malaysia</strong></td><td>20°</td><td>18°</td><td>Official method of Malaysia's Department of Islamic Development.</td></tr>
+      <tr><td><strong>Ministry of Habous, Morocco</strong></td><td>19°</td><td>17°</td><td>Includes an official precautionary offset of +5 minutes on Dhuhr.</td></tr>
+      <tr><td><strong>Ministry of Awqaf, Jordan</strong></td><td>18°</td><td>18°</td><td>Maghrib is set 5 minutes after sunset.</td></tr>
+      <tr><td><strong>Diyanet, Turkey</strong></td><td>18°</td><td>17°</td><td>Includes official precautionary (ihtiyat) minute offsets: sunrise −7, Dhuhr +5, Asr +4, Maghrib +7.</td></tr>
+      <tr><td><strong>UOIF, France</strong></td><td>12°</td><td>12°</td><td>Used by the Union of Islamic Organisations of France; suited to higher latitudes.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="card seo-copy">
+  <h2>Asr: Standard vs Hanafi</h2>
+  <p>Asr begins when the shadow of an object reaches a certain length beyond its noon shadow. The <strong>Standard</strong> setting (Shafi'i, Maliki and Hanbali schools) starts Asr when the shadow equals the object's height; the <strong>Hanafi</strong> setting starts it when the shadow reaches twice the object's height, giving a later Asr. Choose the one that matches your school of thought.</p>
+  <h2>High-latitude adjustment</h2>
+  <p>In far northern or southern locations the sun may barely set in summer or barely rise in winter, making twilight-angle times extreme or undefined. SalahTime applies an <strong>angle-based adjustment</strong>: Fajr and Isha are limited to a proportion of the night (angle ÷ 60 × night length), the same approach used by major prayer-time APIs.</p>
+  <h2>Imsak</h2>
+  <p><strong>Imsak</strong> — the time to stop eating before fasting — is shown as <strong>10 minutes before Fajr</strong> for all methods.</p>
+  <h2>Accuracy</h2>
+  <p class="alert">Verified against the Aladhan API — worst deviation 2 minutes across 17 city/date/method checks (Cairo, Mecca, Riyadh, Jakarta, Kuala Lumpur, Istanbul, Karachi, Dhaka, New York, London, Casablanca, Amman, Paris, Lagos; methods Egypt, Makkah, Kemenag, Jakim, Turkey, Karachi, ISNA, Morocco, Jordan, France, MWL), checked 2026-09-24.</p>
+  <p>Calculation is only half the story: mosques often add small precautionary minutes, and local moon-sighting can shift Hijri dates by a day. When in doubt, please confirm with your local mosque.</p>
+</section>
+
+<!-- ADSENSE: sidebar/bottom -->
+<div class="ad-slot" role="complementary" aria-label="Advertisement">Advertisement</div>
+
+</main>
+<footer class="site-footer"><div class="container"><nav class="nav"><a href="/about.html">About</a><a href="/contact.html">Contact</a><a href="/privacy.html">Privacy</a><a href="/methods.html">Methods</a></nav><p>© 2026 SalahTime. Prayer times are calculated astronomically; please confirm with your local mosque.</p></div></footer>
+</body>
+</html>

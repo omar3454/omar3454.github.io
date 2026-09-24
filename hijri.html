@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hijri Calendar — Islamic Date Today | SalahTime</title>
+<meta name="description" content="Today's Hijri date, the current Islamic month calendar, and countdowns to Ramadan, Eid al-Fitr and Eid al-Adha.">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<header class="site-header"><div class="container"><a class="brand" href="/">SalahTime</a><span class="tagline">Accurate prayer times for the Muslim world</span><nav class="nav"><a href="/">Home</a><a href="/qibla.html">Qibla</a><a href="/hijri.html" aria-current="page">Hijri Calendar</a><a href="/methods.html">Methods</a><a href="/cities/">Cities</a></nav></div></header>
+<main class="container">
+<p class="breadcrumbs"><a href="/">Home</a> → Hijri calendar</p>
+
+<!-- ADSENSE: banner-top -->
+<div class="ad-slot" role="complementary" aria-label="Advertisement">Advertisement</div>
+
+<section class="card">
+  <h2>Today's Hijri date</h2>
+  <p class="hijri-big" id="hijri-today">…</p>
+  <p class="center muted" id="greg-today"></p>
+  <p class="alert" id="hijri-warn" style="display:none">Your browser does not support the Islamic calendar — Hijri dates cannot be shown.</p>
+</section>
+
+<div class="grid">
+  <section class="card">
+    <h2 id="month-title">This month</h2>
+    <div style="display:flex;gap:8px;justify-content:center;margin-bottom:6px">
+      <button type="button" class="btn" id="btn-prev">← Previous</button>
+      <button type="button" class="btn" id="btn-next">Next →</button>
+    </div>
+    <div class="month-grid" id="month-grid" aria-label="Hijri month calendar"></div>
+    <p class="small muted center" style="margin-bottom:0">Gold days mark 1 Ramadan, 1 Shawwal (Eid al-Fitr) and 10 Dhul-Hijjah (Eid al-Adha).</p>
+  </section>
+  <section class="card">
+    <h2>Upcoming holy days</h2>
+    <ul class="holy-list" id="holy-countdowns"></ul>
+    <p class="small muted" style="margin-bottom:0">Dates follow the Umm al-Qura calendar and may differ by a day from local moon-sighting announcements.</p>
+  </section>
+</div>
+
+<section class="card seo-copy">
+  <h2>About the Hijri calendar</h2>
+  <p>The Hijri (Islamic) calendar is a lunar calendar of 12 months, each beginning with the sighting of the new crescent moon. A Hijri year is about 354 days — roughly 11 days shorter than the solar Gregorian year — which is why Ramadan and the two Eids move earlier through the seasons each year. The calendar counts from the Prophet Muhammad's migration (Hijra) from Mecca to Medina in 622 CE, so the current year is written with the suffix "AH" (Anno Hegirae).</p>
+  <p>The months alternate between 29 and 30 days, and an extra day is added to the final month, Dhul-Hijjah, in leap years. Because the calendar depends on the moon, the exact start of a month can vary by a day between countries that rely on physical moon-sighting and those that use astronomical calculation, such as Saudi Arabia's Umm al-Qura calendar used on this page.</p>
+</section>
+
+<!-- ADSENSE: sidebar/bottom -->
+<div class="ad-slot" role="complementary" aria-label="Advertisement">Advertisement</div>
+
+</main>
+<footer class="site-footer"><div class="container"><nav class="nav"><a href="/about.html">About</a><a href="/contact.html">Contact</a><a href="/privacy.html">Privacy</a><a href="/methods.html">Methods</a></nav><p>© 2026 SalahTime. Prayer times are calculated astronomically; please confirm with your local mosque.</p></div></footer>
+<script src="/assets/js/app.js"></script>
+<script>
+(function () {
+  'use strict';
+  var App = window.SalahTimeApp;
+  var el = function (id) { return document.getElementById(id); };
+  var viewed = new Date(); // gregorian date inside the displayed islamic month
+  var DOW = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+  var HOLY = { '9-1': 'Ramadan begins', '10-1': 'Eid al-Fitr', '12-10': 'Eid al-Adha' };
+
+  function renderMonth() {
+    var grid = el('month-grid');
+    grid.innerHTML = '';
+    var span = App.hijriMonthSpan(viewed);
+    if (!span) return;
+    el('month-title').textContent = App.islamicMonthName(span.year, span.month) + ' ' + span.year + ' AH';
+
+    DOW.forEach(function (d) {
+      var h = document.createElement('div'); h.className = 'dow'; h.textContent = d;
+      grid.appendChild(h);
+    });
+    var lead = span.first.getDay(); // 0 = Sunday
+    for (var i = 0; i < lead; i++) {
+      var e = document.createElement('div'); e.className = 'day empty'; grid.appendChild(e);
+    }
+    var todayKey = new Date().toDateString();
+    for (var t = span.first.getTime(); t <= span.last.getTime(); t += 86400000) {
+      (function (time) {
+        var g = new Date(time);
+        var p = App.getIslamicParts(new Date(time + 12 * 3600000));
+        var cell = document.createElement('div');
+        cell.className = 'day';
+        if (g.toDateString() === todayKey) cell.classList.add('today');
+        if (p && HOLY[p.month + '-' + p.day]) { cell.classList.add('holy'); cell.title = HOLY[p.month + '-' + p.day]; }
+        var num = document.createElement('div'); num.textContent = p ? p.day : '';
+        var greg = document.createElement('div'); greg.className = 'g'; greg.textContent = g.getDate();
+        cell.appendChild(num); cell.appendChild(greg);
+        grid.appendChild(cell);
+      })(t);
+    }
+    // keep viewed anchored for prev/next navigation
+    viewed = new Date(span.first.getTime() + 12 * 3600000);
+    grid._span = span;
+  }
+
+  function init() {
+    if (!App.islamicSupported()) {
+      el('hijri-warn').style.display = 'block';
+      el('hijri-today').textContent = '—';
+      return;
+    }
+    var now = new Date();
+    el('hijri-today').textContent = App.formatHijri(now);
+    el('greg-today').textContent = App.formatGregorian(now);
+
+    var holy = el('holy-countdowns');
+    App.holyDaysCountdowns().forEach(function (h) {
+      var li = document.createElement('li');
+      var name = document.createElement('span');
+      var strong = document.createElement('strong'); strong.textContent = h.name;
+      name.appendChild(strong);
+      if (h.next) {
+        var sub = document.createElement('div'); sub.className = 'muted small';
+        sub.textContent = h.arabic + ' ' + h.next.hijriYear + ' AH \u2022 ' + App.formatGregorian(h.next.date);
+        name.appendChild(sub);
+      }
+      var days = document.createElement('span'); days.className = 'days';
+      days.textContent = h.next ? App.daysAwayText(h.next.daysAway) : '—';
+      li.appendChild(name); li.appendChild(days);
+      holy.appendChild(li);
+    });
+
+    renderMonth();
+    el('btn-prev').addEventListener('click', function () {
+      var span = el('month-grid')._span;
+      if (span) viewed = new Date(span.first.getTime() - 86400000);
+      renderMonth();
+    });
+    el('btn-next').addEventListener('click', function () {
+      var span = el('month-grid')._span;
+      if (span) viewed = new Date(span.last.getTime() + 86400000);
+      renderMonth();
+    });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+</body>
+</html>
